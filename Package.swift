@@ -32,7 +32,8 @@ let package = Package(
             dependencies: ["LivenessDetection", "SpoofDeviceDetection"],
             resources: [
                 .copy("Resources/ARC_PSD-001_1.1.122_bst_yl80201_NMS_ult201_cml70.mlpackage")
-            ]),
+            ],
+            swiftSettings: [.define("SPM")]),
         .testTarget(
             name: "SpoofDeviceDetectionTests",
             dependencies: ["SpoofDeviceDetectionFull"],
