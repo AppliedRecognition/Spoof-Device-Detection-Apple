@@ -8,9 +8,9 @@ final class SpoofDeviceDetectionTests: XCTestCase {
         XCTAssertNoThrow(try SpoofDeviceDetector())
     }
     
-    func testDetectSpoof() throws {
+    func testDetectSpoof() async throws {
         let spoofDetector = try SpoofDeviceDetector()
-        let spoofs = try spoofDetector.detectSpoofDevicesInImage(self.testImage)
+        let spoofs = try await spoofDetector.detectSpoofDevicesInImage(self.testImage)
         XCTAssertEqual(1, spoofs.count)
         XCTAssertEqual(0.96, spoofs.first!.confidence, accuracy: 0.1)
     }

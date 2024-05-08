@@ -18,13 +18,9 @@ import LivenessDetection
 public class SpoofDeviceDetector: SpoofDetector {
     
     public var logger: Logger = NSLogLogger()
+    var maxSideLength: CGFloat = 4000
     
     let model: VNCoreMLModel
-    lazy var queue: OperationQueue = {
-        let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 1
-        return queue
-    }()
     
     lazy var request: VNCoreMLRequest = {
         let request = VNCoreMLRequest(model: self.model)
@@ -67,7 +63,7 @@ public class SpoofDeviceDetector: SpoofDetector {
     public var confidenceThreshold: Float = 0.5
     
     public func detectSpoofInImage(_ image: UIImage, regionOfInterest roi: CGRect?) async throws -> Float {
-        var spoofDevices = try self.detectSpoofDevicesInImage(image)
+        var spoofDevices = try await self.detectSpoofDevicesInImage(image)
         if let centreX = roi?.midX, let centreY = roi?.midY {
             let roiCentre = CGPoint(x: centreX, y: centreY)
             spoofDevices = spoofDevices.filter({ $0.boundingBox.contains(roiCentre) })
@@ -79,62 +75,36 @@ public class SpoofDeviceDetector: SpoofDetector {
     /// - Parameter image: Image
     /// - Returns: Array of detected spoof devices
     /// - Since: 1.0.0
-    public func detectSpoofDevicesInImage(_ image: UIImage) throws -> [DetectedSpoof] {
-        let operation = DetectionOperation(request: self.request, image: image)
-        self.queue.addOperations([operation], waitUntilFinished: true)
-        if let error = operation.error {
-            throw error
+    public func detectSpoofDevicesInImage(_ image: UIImage) async throws -> [DetectedSpoof] {
+        let longerSide = max(image.size.width, image.size.height)
+        var scaleTransform: CGAffineTransform = .identity
+        var scaledImage = image
+        if longerSide > self.maxSideLength {
+            let scale = self.maxSideLength / longerSide
+            scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
+            let scaledSize = image.size.applying(scaleTransform)
+            scaledImage = UIGraphicsImageRenderer(size: scaledSize).image { _ in
+                image.draw(in: CGRect(origin: .zero, size: scaledSize))
+            }
         }
-        return operation.results
-    }
-}
-
-fileprivate class DetectionOperation: Operation {
-    
-    var image: UIImage
-    let request: VNCoreMLRequest
-    var error: Error?
-    var maxSideLength: CGFloat = 4000
-    var results: [DetectedSpoof] = []
-    
-    init(request: VNCoreMLRequest, image: UIImage) {
-        self.request = request
-        self.image = image
-    }
-    
-    override func main() {
-        do {
-            let longerSide = max(image.size.width, image.size.height)
-            var scaleTransform: CGAffineTransform = .identity
-            if longerSide > self.maxSideLength {
-                let scale = self.maxSideLength / longerSide
-                scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
-                let scaledSize = self.image.size.applying(scaleTransform)
-                self.image = UIGraphicsImageRenderer(size: scaledSize).image { _ in
-                    self.image.draw(in: CGRect(origin: .zero, size: scaledSize))
-                }
-            }
-            guard let cgImage = self.image.cgImage else {
-                throw ImageProcessingError.cgImageConversionError
-            }
-            let orientation = self.image.imageOrientation.cgImagePropertyOrientation
-            try VNImageRequestHandler(cgImage: cgImage, orientation: orientation).perform([self.request])
-            self.results = (self.request.results as? [VNRecognizedObjectObservation])?.map { DetectedSpoof(observation: $0, imageSize: self.image.size) } ?? []
-            let invertedScaleTransform: CGAffineTransform
-            if !scaleTransform.isIdentity {
-                invertedScaleTransform = scaleTransform.inverted()
-            } else {
-                invertedScaleTransform = .identity
-            }
-            self.results = self.results.map { result in
-                if !invertedScaleTransform.isIdentity {
-                    return DetectedSpoof(boundingBox: result.boundingBox.applying(invertedScaleTransform), confidence: result.confidence)
-                }
-                return result
-            }.filter { $0.confidence > 0 }
-        } catch {
-            self.error = error
+        guard let cgImage = scaledImage.cgImage else {
+            throw ImageProcessingError.cgImageConversionError
         }
+        let orientation = scaledImage.imageOrientation.cgImagePropertyOrientation
+        try VNImageRequestHandler(cgImage: cgImage, orientation: orientation).perform([self.request])
+        var results = (self.request.results as? [VNRecognizedObjectObservation])?.map { DetectedSpoof(observation: $0, imageSize: image.size) } ?? []
+        let invertedScaleTransform: CGAffineTransform
+        if !scaleTransform.isIdentity {
+            invertedScaleTransform = scaleTransform.inverted()
+        } else {
+            invertedScaleTransform = .identity
+        }
+        return results.map { result in
+            if !invertedScaleTransform.isIdentity {
+                return DetectedSpoof(boundingBox: result.boundingBox.applying(invertedScaleTransform), confidence: result.confidence)
+            }
+            return result
+        }.filter { $0.confidence > 0 }
     }
 }
 
