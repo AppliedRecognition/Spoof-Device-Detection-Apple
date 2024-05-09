@@ -26,10 +26,15 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "SpoofDeviceDetection",
-            dependencies: ["LivenessDetection"]),
+            dependencies: [
+                .product(
+                    name: "LivenessDetection",
+                    package: "Liveness-Detection-Core-Apple"
+                )
+            ]),
         .target(
             name: "SpoofDeviceDetectionFull",
-            dependencies: ["LivenessDetection", "SpoofDeviceDetection"],
+            dependencies: ["SpoofDeviceDetection"],
             resources: [
                 .copy("Resources/ARC_PSD-001_1.1.122_bst_yl80201_NMS_ult201_cml70.mlpackage")
             ],
