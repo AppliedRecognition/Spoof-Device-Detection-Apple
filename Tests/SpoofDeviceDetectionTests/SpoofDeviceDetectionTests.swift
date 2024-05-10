@@ -1,6 +1,6 @@
 import XCTest
 import SpoofDeviceDetection
-@testable import SpoofDeviceDetectionFull
+@testable import SpoofDeviceDetectionModel
 
 final class SpoofDeviceDetectionTests: XCTestCase {
     

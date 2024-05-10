@@ -28,7 +28,7 @@ All Ver-ID liveness detection modules conform to the [SpoofDetector](https://git
 
 ```swift
 import SpoofDeviceDetection
-import SpoofDeviceDetectionFull
+import SpoofDeviceDetectionModel
 
 func detectSpoofInImage(_ image: UIImage, confidenceThreshold: Float = 0.5) async throws -> Bool 
   let faceRect: CGRect? = detectFaceInImage(image)
@@ -48,7 +48,7 @@ func detectFaceInImage(_ image: UIImage) -> CGRect? {
 
 ```swift
 import SpoofDeviceDetection
-import SpoofDeviceDetectionFull
+import SpoofDeviceDetectionModel
 
 func detectSpoofDevicesInImage(_ image: UIImage, confidenceThreshold: Float = 0.5) async throws -> [DetectedSpoof] {
   let spoofDetector = try SpoofDeviceDetector()

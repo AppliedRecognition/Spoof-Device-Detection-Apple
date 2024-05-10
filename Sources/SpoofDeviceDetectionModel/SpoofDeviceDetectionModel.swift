@@ -1,5 +1,5 @@
 //
-//  SpoofDeviceDetectionFull.swift
+//  SpoofDeviceDetectionModel.swift
 //
 //
 //  Created by Jakub Dolejs on 03/05/2024.

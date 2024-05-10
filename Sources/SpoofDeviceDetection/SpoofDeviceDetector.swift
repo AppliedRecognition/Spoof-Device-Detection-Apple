@@ -17,7 +17,6 @@ import LivenessDetection
 /// - Since: 1.0.0
 public class SpoofDeviceDetector: SpoofDetector {
     
-    public var logger: Logger = NSLogLogger()
     var maxSideLength: CGFloat = 4000
     
     let model: VNCoreMLModel

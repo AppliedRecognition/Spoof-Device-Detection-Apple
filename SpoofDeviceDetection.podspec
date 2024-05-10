@@ -25,9 +25,9 @@ Pod::Spec.new do |spec|
   end
   
   spec.subspec 'Full' do |full|
-    full.source_files = 'Sources/SpoofDeviceDetectionFull/*.swift'
+    full.source_files = 'Sources/SpoofDeviceDetectionModel/*.swift'
     full.resource_bundles = {
-        "SpoofDeviceDetectionFull" => ["Sources/SpoofDeviceDetectionFull/Resources/*.*"]
+        "SpoofDeviceDetectionModel" => ["Sources/SpoofDeviceDetectionModel/Resources/*.*"]
     }
     full.dependency    "SpoofDeviceDetection/Core"
   end

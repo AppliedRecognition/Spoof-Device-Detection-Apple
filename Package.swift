@@ -14,11 +14,11 @@ let package = Package(
             name: "SpoofDeviceDetection",
             targets: ["SpoofDeviceDetection"]),
         .library(
-            name: "SpoofDeviceDetectionFull",
-            targets: ["SpoofDeviceDetectionFull"])
+            name: "SpoofDeviceDetectionModel",
+            targets: ["SpoofDeviceDetectionModel"])
     ],
     dependencies: [
-        .package(url: "https://github.com/AppliedRecognition/Liveness-Detection-Core-Apple.git", from: "1.0.0")
+        .package(url: "https://github.com/AppliedRecognition/Liveness-Detection-Core-Apple.git", revision: "c8f9cc500e8f62a58b758ab83e559e361662a104")
 //        .package(path: "../LivenessDetection")
     ],
     targets: [
@@ -33,7 +33,7 @@ let package = Package(
                 )
             ]),
         .target(
-            name: "SpoofDeviceDetectionFull",
+            name: "SpoofDeviceDetectionModel",
             dependencies: ["SpoofDeviceDetection"],
             resources: [
                 .copy("Resources/ARC_PSD-001_1.1.122_bst_yl80201_NMS_ult201_cml70.mlpackage")
@@ -41,7 +41,7 @@ let package = Package(
             swiftSettings: [.define("SPM")]),
         .testTarget(
             name: "SpoofDeviceDetectionTests",
-            dependencies: ["SpoofDeviceDetectionFull"],
+            dependencies: ["SpoofDeviceDetectionModel"],
             resources: [
                 .copy("Resources/face_on_iPad_001.jpg")
             ])

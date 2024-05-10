@@ -12,7 +12,7 @@ import class Foundation.Bundle
 extension Foundation.Bundle {
     
     static var module: Bundle {
-        let bundleURL = Bundle(for: SpoofDeviceDetectionFull.self).resourceURL?.appendingPathComponent("SpoofDeviceDetectionFull.bundle")
+        let bundleURL = Bundle(for: SpoofDeviceDetectionModel.self).resourceURL?.appendingPathComponent("SpoofDeviceDetectionModel.bundle")
         return Bundle(url: bundleURL!)
     }
 }
