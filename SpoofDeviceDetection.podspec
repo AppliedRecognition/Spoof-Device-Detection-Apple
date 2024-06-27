@@ -30,7 +30,6 @@ Pod::Spec.new do |spec|
         "SpoofDeviceDetectionModel" => ["Sources/SpoofDeviceDetectionModel/Resources/*.*"]
     }
     full.dependency    "SpoofDeviceDetection/Core"
-    full.module_name = "SpoofDeviceDetectionModel"
   end
 
 end
