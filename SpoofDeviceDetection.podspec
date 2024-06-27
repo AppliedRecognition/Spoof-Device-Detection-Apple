@@ -12,7 +12,7 @@ Pod::Spec.new do |spec|
   spec.author = "Jakub Dolejs"
   
   spec.platform = :ios, "13.0"
-  spec.swift_version = "5.0"
+  spec.swift_versions = ["5.5", "5.6", "5.7", "5.8", "5.9", "5.10"]
   
   spec.source = { :git => "https://github.com/AppliedRecognition/Spoof-Device-Detection-Apple.git", :tag => "#{spec.version}" }
   
@@ -24,7 +24,7 @@ Pod::Spec.new do |spec|
     core.source_files = "Sources/SpoofDeviceDetection/*.swift"
   end
   
-  spec.subspec 'Full' do |full|
+  spec.subspec 'Model' do |full|
     full.source_files = 'Sources/SpoofDeviceDetectionModel/*.swift'
     full.resource_bundles = {
         "SpoofDeviceDetectionModel" => ["Sources/SpoofDeviceDetectionModel/Resources/*.*"]
