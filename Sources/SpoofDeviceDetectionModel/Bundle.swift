@@ -12,8 +12,13 @@ import class Foundation.Bundle
 extension Foundation.Bundle {
     
     static var module: Bundle {
-        let bundleURL = Bundle(for: SpoofDeviceDetectionModel.self).resourceURL?.appendingPathComponent("SpoofDeviceDetectionModel.bundle")
-        return Bundle(url: bundleURL!)
+        guard let bundleURL = Bundle(for: SpoofDeviceDetectionModel.self).resourceURL?.appendingPathComponent("SpoofDeviceDetectionModel.bundle") else {
+            fatalError("Missing resource bundle")
+        }
+        guard let bundle = Bundle(url: bundleURL) else {
+            fatalError("Failed to load resource bundle")
+        }
+        return bundle
     }
 }
 #endif
