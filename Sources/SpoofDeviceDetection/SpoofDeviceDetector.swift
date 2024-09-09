@@ -15,6 +15,7 @@ import LivenessDetection
 ///
 /// Detect spoof devices like smartphones, tablets or photographs
 /// - Since: 1.0.0
+@available(iOS 13, *)
 public class SpoofDeviceDetector: SpoofDetector {
     
     var maxSideLength: CGFloat = 4000
