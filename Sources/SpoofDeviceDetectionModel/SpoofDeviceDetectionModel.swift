@@ -7,6 +7,7 @@
 import SpoofDeviceDetection
 import Foundation
 
+@available(iOS 13, *)
 public extension SpoofDeviceDetector {
     
     convenience init() throws {
