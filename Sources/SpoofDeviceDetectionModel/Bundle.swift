@@ -11,6 +11,7 @@ import class Foundation.Bundle
 
 extension Foundation.Bundle {
     
+    @available(iOS 13, *)
     static var module: Bundle {
         guard let bundleURL = Bundle(for: SpoofDeviceDetector.self).resourceURL?.appendingPathComponent("SpoofDeviceDetectionModel.bundle") else {
             fatalError("Missing resource bundle")
