@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name = "SpoofDeviceDetection"
-  spec.version = "1.0.0"
+  spec.version = "1.0.1"
   spec.summary = "Spoof device detection for iOS"
 
   spec.description = "iOS library that detects presentation attacks that use devices with screens"
