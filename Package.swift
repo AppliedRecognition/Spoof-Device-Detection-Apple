@@ -18,7 +18,7 @@ let package = Package(
             targets: ["SpoofDeviceDetectionModel"])
     ],
     dependencies: [
-        .package(url: "https://github.com/AppliedRecognition/Liveness-Detection-Core-Apple.git", revision: "c8f9cc500e8f62a58b758ab83e559e361662a104")
+        .package(url: "https://github.com/AppliedRecognition/Liveness-Detection-Core-Apple.git", revision: "630fe97656ac59a6b1293215103e9109a0ef6e31")
 //        .package(path: "../LivenessDetection")
     ],
     targets: [

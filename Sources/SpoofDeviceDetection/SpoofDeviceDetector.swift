@@ -62,8 +62,19 @@ public class SpoofDeviceDetector: SpoofDetector {
     
     public var confidenceThreshold: Float = 0.5
     
+    @available(iOS 15, *)
     public func detectSpoofInImage(_ image: UIImage, regionOfInterest roi: CGRect?) async throws -> Float {
         var spoofDevices = try await self.detectSpoofDevicesInImage(image)
+        if let centreX = roi?.midX, let centreY = roi?.midY {
+            let roiCentre = CGPoint(x: centreX, y: centreY)
+            spoofDevices = spoofDevices.filter({ $0.boundingBox.contains(roiCentre) })
+        }
+        return spoofDevices.max(by: { $0.confidence < $1.confidence })?.confidence ?? 0
+    }
+    
+    @available(iOS, introduced: 13.0, obsoleted: 15.0)
+    public func detectSpoofInImage(_ image: UIImage, regionOfInterest roi: CGRect?) throws -> Float {
+        var spoofDevices = try self.detectSpoofDevicesInImage(image)
         if let centreX = roi?.midX, let centreY = roi?.midY {
             let roiCentre = CGPoint(x: centreX, y: centreY)
             spoofDevices = spoofDevices.filter({ $0.boundingBox.contains(roiCentre) })
@@ -75,7 +86,17 @@ public class SpoofDeviceDetector: SpoofDetector {
     /// - Parameter image: Image
     /// - Returns: Array of detected spoof devices
     /// - Since: 1.0.0
+    @available(iOS 15, *)
     public func detectSpoofDevicesInImage(_ image: UIImage) async throws -> [DetectedSpoof] {
+        return try self._detectSpoofDevicesInImage(image)
+    }
+    
+    @available(iOS, introduced: 13.0, obsoleted: 15.0)
+    public func detectSpoofDevicesInImage(_ image: UIImage) throws -> [DetectedSpoof] {
+        return try self._detectSpoofDevicesInImage(image)
+    }
+    
+    private func _detectSpoofDevicesInImage(_ image: UIImage) throws -> [DetectedSpoof] {
         let longerSide = max(image.size.width, image.size.height)
         var scaleTransform: CGAffineTransform = .identity
         var scaledImage = image
@@ -92,7 +113,7 @@ public class SpoofDeviceDetector: SpoofDetector {
         }
         let orientation = scaledImage.imageOrientation.cgImagePropertyOrientation
         try VNImageRequestHandler(cgImage: cgImage, orientation: orientation).perform([self.request])
-        var results = (self.request.results as? [VNRecognizedObjectObservation])?.map { DetectedSpoof(observation: $0, imageSize: image.size) } ?? []
+        let results = (self.request.results as? [VNRecognizedObjectObservation])?.map { DetectedSpoof(observation: $0, imageSize: image.size) } ?? []
         let invertedScaleTransform: CGAffineTransform
         if !scaleTransform.isIdentity {
             invertedScaleTransform = scaleTransform.inverted()
