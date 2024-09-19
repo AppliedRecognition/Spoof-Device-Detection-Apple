@@ -18,8 +18,7 @@ let package = Package(
             targets: ["SpoofDeviceDetectionModel"])
     ],
     dependencies: [
-        .package(url: "https://github.com/AppliedRecognition/Liveness-Detection-Core-Apple.git", revision: "630fe97656ac59a6b1293215103e9109a0ef6e31")
-//        .package(path: "../LivenessDetection")
+        .package(url: "https://github.com/AppliedRecognition/Liveness-Detection-Core-Apple.git", from: "1.1.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -36,7 +35,7 @@ let package = Package(
             name: "SpoofDeviceDetectionModel",
             dependencies: ["SpoofDeviceDetection"],
             resources: [
-                .copy("Resources/ARC_PSD-001_1.1.122_bst_yl80201_NMS_ult201_cml70.mlpackage")
+                .copy("Resources/ARC_PSD-001_1.4.151_lst_yl82087_NMS_ult087_cml72.mlpackage")
             ],
             swiftSettings: [.define("SPM")]),
         .testTarget(

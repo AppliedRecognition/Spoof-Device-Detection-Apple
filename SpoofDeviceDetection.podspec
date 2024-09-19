@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name = "SpoofDeviceDetection"
-  spec.version = "1.0.1"
+  spec.version = "1.1.0"
   spec.summary = "Spoof device detection for iOS"
 
   spec.description = "iOS library that detects presentation attacks that use devices with screens"
@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   
   spec.source = { :git => "https://github.com/AppliedRecognition/Spoof-Device-Detection-Apple.git", :tag => "#{spec.version}" }
   
-  spec.dependency "LivenessDetectionCore", "~> 1.0"
+  spec.dependency "LivenessDetectionCore", "~> 1.1"
 
   default_subspecs = 'Core'
   

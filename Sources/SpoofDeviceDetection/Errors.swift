@@ -10,3 +10,7 @@ import Foundation
 public enum ImageProcessingError: Error {
     case cgImageConversionError
 }
+
+public enum SpoofDeviceDetectorError: Error {
+    case modelNotFound
+}

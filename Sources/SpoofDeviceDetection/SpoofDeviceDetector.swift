@@ -34,7 +34,7 @@ public class SpoofDeviceDetector: SpoofDetector {
     @available(iOS 16, macOS 13, macCatalyst 16, *)
     public convenience init(modelURL: URL) async throws {
         let compiledModelURL = try await MLModel.compileModel(at: modelURL)
-        try self.init(compiledModelURL: compiledModelURL, identifier: modelURL.lastPathComponent)
+        try await self.init(compiledModelURL: compiledModelURL, identifier: modelURL.lastPathComponent)
     }
     
     /// Constructor
@@ -47,10 +47,22 @@ public class SpoofDeviceDetector: SpoofDetector {
     
     /// Constructor
     /// - Parameters:
-    ///     - compiledModelURL: URL of the compiled model file
-    ///     - identifier: Model identifier
-    /// - Since: 1.3.0
+    ///   - compiledModelURL: URL of the compiled model file
+    ///   - identifier: Model identifier
+    /// - Since: 1.0.0
     public init(compiledModelURL: URL, identifier: String) throws {
+        let spoofDetector: MLModel = try MLModel(contentsOf: compiledModelURL)
+        self.model = try VNCoreMLModel(for: spoofDetector)
+        self.identifier = identifier
+    }
+    
+    @available(iOS 16, macOS 13, macCatalyst 16, *)
+    /// Constructor
+    /// - Parameters:
+    ///   - compiledModelURL: URL of the compiled model file
+    ///   - identifier: Model identifier
+    /// - Since: 1.1.0
+    public init(compiledModelURL: URL, identifier: String) async throws {
         let spoofDetector: MLModel = try MLModel(contentsOf: compiledModelURL)
         self.model = try VNCoreMLModel(for: spoofDetector)
         self.identifier = identifier
@@ -91,6 +103,10 @@ public class SpoofDeviceDetector: SpoofDetector {
         return try self._detectSpoofDevicesInImage(image)
     }
     
+    /// Detect spoof devices in image
+    /// - Parameter image: image
+    /// - Returns: Array of detected spoof devices
+    /// - Since: 1.1.0
     @available(iOS, introduced: 13.0, obsoleted: 15.0)
     public func detectSpoofDevicesInImage(_ image: UIImage) throws -> [DetectedSpoof] {
         return try self._detectSpoofDevicesInImage(image)
