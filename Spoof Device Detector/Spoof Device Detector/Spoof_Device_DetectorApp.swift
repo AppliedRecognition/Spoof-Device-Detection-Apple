@@ -11,15 +11,20 @@ import SwiftUI
 struct Spoof_Device_DetectorApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                ContentView()
+                    .toolbar {
+                        ToolbarItem(placement: .navigation) {
+                            NavigationLink {
+                                SettingsView()
+                            } label: {
+                                Image(systemName: "gear")
+                            }
+                        }
+                    }
+            }
         }
     }
-}
-
-func measure(_ block: () -> Void) -> Double {
-    let start = CFAbsoluteTimeGetCurrent()
-    block()
-    return CFAbsoluteTimeGetCurrent() - start
 }
 
 func measure<T>(_ block: () async throws -> T) async -> (Result<T,Error>, Double) {

@@ -13,6 +13,7 @@
 		3BA975F62DA586A600F3116C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BA975F52DA586A600F3116C /* Preview Assets.xcassets */; };
 		3BA975FE2DA5870F00F3116C /* SpoofDeviceDetection in Frameworks */ = {isa = PBXBuildFile; productRef = 3BA975FD2DA5870F00F3116C /* SpoofDeviceDetection */; };
 		3BA976002DA5870F00F3116C /* SpoofDeviceDetectionModel in Frameworks */ = {isa = PBXBuildFile; productRef = 3BA975FF2DA5870F00F3116C /* SpoofDeviceDetectionModel */; };
+		3BC403602DA5C73A00782421 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC4035F2DA5C73A00782421 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		3BA975F02DA586A200F3116C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3BA975F22DA586A600F3116C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BA975F52DA586A600F3116C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3BC4035F2DA5C73A00782421 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				3BA975F02DA586A200F3116C /* ContentView.swift */,
 				3BA975F22DA586A600F3116C /* Assets.xcassets */,
 				3BA975F42DA586A600F3116C /* Preview Content */,
+				3BC4035F2DA5C73A00782421 /* SettingsView.swift */,
 			);
 			path = "Spoof Device Detector";
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BC403602DA5C73A00782421 /* SettingsView.swift in Sources */,
 				3BA975F12DA586A200F3116C /* ContentView.swift in Sources */,
 				3BA975EF2DA586A200F3116C /* Spoof_Device_DetectorApp.swift in Sources */,
 			);

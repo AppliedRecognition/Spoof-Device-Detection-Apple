@@ -9,6 +9,7 @@ import SwiftUI
 import PhotosUI
 import SpoofDeviceDetection
 import SpoofDeviceDetectionModel
+import CoreML
 
 struct ContentView: View {
     
@@ -45,10 +46,10 @@ struct ContentView: View {
                     photoLibrary: .shared()
                 ) {
                     Text("Pick a Photo")
-                        .padding()
+                        .padding(8)
                         .background(Color.blue)
                         .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .cornerRadius(16)
                 }
             }
         }
@@ -114,17 +115,23 @@ struct ContentView: View {
         }
         .task {
             let (result, time) = await measure {
-                try await SpoofDeviceDetector()
+                let config = MLModelConfiguration()
+                let allKeys = UserDefaults.standard.dictionaryRepresentation().keys
+                if allKeys.contains("computeUnits"), let computeUnits = MLComputeUnits(rawValue: UserDefaults.standard.integer(forKey: "computeUnits")) {
+                    config.computeUnits = computeUnits
+                }
+                return try await SpoofDeviceDetector(configuration: config)
             }
             switch result {
             case .success(let detector):
-                detector.modelConfiguration.computeUnits = .cpuOnly
                 self.spoofDetector = detector
                 self.message = String(format: "Spoof detector loaded in %.02f s", time)
             case .failure(let error):
                 self.error = String(format: "Failed to load spoof detector in %.02f s: %@", time, error.localizedDescription)
             }
         }
+        .navigationTitle("Spoof detection test")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     private func copy(of image: UIImage) -> UIImage {
