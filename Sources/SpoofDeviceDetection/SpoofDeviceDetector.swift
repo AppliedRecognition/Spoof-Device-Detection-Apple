@@ -22,6 +22,12 @@ public class SpoofDeviceDetector: SpoofDetector {
     
     let model: VNCoreMLModel
     
+    public var modelConfiguration: MLModelConfiguration = {
+        let config = MLModelConfiguration()
+        config.computeUnits = .all
+        return config
+    }()
+    
     lazy var request: VNCoreMLRequest = {
         let request = VNCoreMLRequest(model: self.model)
         request.imageCropAndScaleOption = .scaleFit
@@ -86,7 +92,7 @@ public class SpoofDeviceDetector: SpoofDetector {
     
     @available(iOS, introduced: 13.0, obsoleted: 15.0)
     public func detectSpoofInImage(_ image: UIImage, regionOfInterest roi: CGRect?) throws -> Float {
-        var spoofDevices = try self.detectSpoofDevicesInImage(image)
+        var spoofDevices = try self._detectSpoofDevicesInImage(image)
         if let centreX = roi?.midX, let centreY = roi?.midY {
             let roiCentre = CGPoint(x: centreX, y: centreY)
             spoofDevices = spoofDevices.filter({ $0.boundingBox.contains(roiCentre) })
@@ -119,8 +125,11 @@ public class SpoofDeviceDetector: SpoofDetector {
         if longerSide > self.maxSideLength {
             let scale = self.maxSideLength / longerSide
             scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
-            let scaledSize = image.size.applying(scaleTransform)
-            scaledImage = UIGraphicsImageRenderer(size: scaledSize).image { _ in
+            var scaledSize = image.size.applying(scaleTransform)
+            scaledSize = CGSize(width: round(scaledSize.width), height: round(scaledSize.height))
+            let format = UIGraphicsImageRendererFormat()
+            format.scale = 1.0
+            scaledImage = UIGraphicsImageRenderer(size: scaledSize, format: format).image { _ in
                 image.draw(in: CGRect(origin: .zero, size: scaledSize))
             }
         }
