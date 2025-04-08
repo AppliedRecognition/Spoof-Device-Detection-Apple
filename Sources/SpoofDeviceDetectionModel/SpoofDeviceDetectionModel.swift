@@ -6,6 +6,7 @@
 //
 import SpoofDeviceDetection
 import Foundation
+import CoreML
 
 @available(iOS 13, *)
 public extension SpoofDeviceDetector {
@@ -14,12 +15,12 @@ public extension SpoofDeviceDetector {
     ///
     /// Uses model packaged with the module
     /// - Since: 1.0.0
-    convenience init() throws {
+    convenience init(configuration: MLModelConfiguration? = nil) throws {
         let modelName = "ARC_PSD-001_1.4.151_lst_yl82087_NMS_ult087_cml72"
         guard let url = Bundle.module.url(forResource: modelName, withExtension: "mlmodelc") else {
             throw SpoofDeviceDetectorError.modelNotFound
         }
-        try self.init(compiledModelURL: url, identifier: modelName)
+        try self.init(compiledModelURL: url, identifier: modelName, configuration: configuration)
     }
     
     /// Async constructor
@@ -27,11 +28,11 @@ public extension SpoofDeviceDetector {
     /// Uses model packaged with the module
     /// - Since: 1.1.0
     @available(iOS 15, *)
-    convenience init() async throws {
+    convenience init(configuration: MLModelConfiguration? = nil) async throws {
         let modelName = "ARC_PSD-001_1.4.151_lst_yl82087_NMS_ult087_cml72"
         guard let url = Bundle.module.url(forResource: modelName, withExtension: "mlmodelc") else {
             throw SpoofDeviceDetectorError.modelNotFound
         }
-        try await self.init(compiledModelURL: url, identifier: modelName)
+        try await self.init(compiledModelURL: url, identifier: modelName, configuration: configuration)
     }
 }

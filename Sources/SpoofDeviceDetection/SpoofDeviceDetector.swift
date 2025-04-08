@@ -22,12 +22,6 @@ public class SpoofDeviceDetector: SpoofDetector {
     
     let model: VNCoreMLModel
     
-    public var modelConfiguration: MLModelConfiguration = {
-        let config = MLModelConfiguration()
-        config.computeUnits = .all
-        return config
-    }()
-    
     lazy var request: VNCoreMLRequest = {
         let request = VNCoreMLRequest(model: self.model)
         request.imageCropAndScaleOption = .scaleFit
@@ -38,17 +32,17 @@ public class SpoofDeviceDetector: SpoofDetector {
     /// - Parameter modelURL: Model file URL
     /// - Since: 1.0.0
     @available(iOS 16, macOS 13, macCatalyst 16, *)
-    public convenience init(modelURL: URL) async throws {
+    public convenience init(modelURL: URL, configuration: MLModelConfiguration? = nil) async throws {
         let compiledModelURL = try await MLModel.compileModel(at: modelURL)
-        try await self.init(compiledModelURL: compiledModelURL, identifier: modelURL.lastPathComponent)
+        try await self.init(compiledModelURL: compiledModelURL, identifier: modelURL.lastPathComponent, configuration: configuration)
     }
     
     /// Constructor
     /// - Parameter modelURL: Model file URL
     /// - Since: 1.0.0
-    public convenience init(modelURL: URL) throws {
+    public convenience init(modelURL: URL, configuration: MLModelConfiguration? = nil) throws {
         let compiledModelURL = try MLModel.compileModel(at: modelURL)
-        try self.init(compiledModelURL: compiledModelURL, identifier: modelURL.lastPathComponent)
+        try self.init(compiledModelURL: compiledModelURL, identifier: modelURL.lastPathComponent, configuration: configuration)
     }
     
     /// Constructor
@@ -56,8 +50,8 @@ public class SpoofDeviceDetector: SpoofDetector {
     ///   - compiledModelURL: URL of the compiled model file
     ///   - identifier: Model identifier
     /// - Since: 1.0.0
-    public init(compiledModelURL: URL, identifier: String) throws {
-        let spoofDetector: MLModel = try MLModel(contentsOf: compiledModelURL)
+    public init(compiledModelURL: URL, identifier: String, configuration: MLModelConfiguration? = nil) throws {
+        let spoofDetector: MLModel = try MLModel(contentsOf: compiledModelURL, configuration: configuration ?? .init())
         self.model = try VNCoreMLModel(for: spoofDetector)
         self.identifier = identifier
     }
@@ -68,8 +62,8 @@ public class SpoofDeviceDetector: SpoofDetector {
     ///   - compiledModelURL: URL of the compiled model file
     ///   - identifier: Model identifier
     /// - Since: 1.1.0
-    public init(compiledModelURL: URL, identifier: String) async throws {
-        let spoofDetector: MLModel = try MLModel(contentsOf: compiledModelURL)
+    public init(compiledModelURL: URL, identifier: String, configuration: MLModelConfiguration? = nil) async throws {
+        let spoofDetector: MLModel = try MLModel(contentsOf: compiledModelURL, configuration: configuration ?? .init())
         self.model = try VNCoreMLModel(for: spoofDetector)
         self.identifier = identifier
     }
