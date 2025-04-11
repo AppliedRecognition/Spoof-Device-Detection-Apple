@@ -98,12 +98,12 @@ struct ContentView: View {
                             }
                         } else {
                             await MainActor.run {
-                                self.message = String(format: "No spoof devices detected in %.02f s", spoofs.count, time)
+                                self.message = String(format: "No spoof devices detected in %.02f s", time)
                             }
                         }
                     case .failure(let error):
                         await MainActor.run {
-                            self.message = String(format: "Spoof detection failed in $.02f s: %@", time, error.localizedDescription)
+                            self.message = String(format: "Spoof detection failed in %.02f s: %@", time, error.localizedDescription)
                         }
                     }
                 } catch {

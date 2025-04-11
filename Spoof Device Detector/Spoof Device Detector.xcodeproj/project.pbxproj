@@ -23,6 +23,7 @@
 		3BA975F22DA586A600F3116C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BA975F52DA586A600F3116C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3BC4035F2DA5C73A00782421 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		3BC403612DA70D6500782421 /* Spoof-Device-Detector-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Spoof-Device-Detector-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +58,7 @@
 		3BA975ED2DA586A200F3116C /* Spoof Device Detector */ = {
 			isa = PBXGroup;
 			children = (
+				3BC403612DA70D6500782421 /* Spoof-Device-Detector-Info.plist */,
 				3BA975EE2DA586A200F3116C /* Spoof_Device_DetectorApp.swift */,
 				3BA975F02DA586A200F3116C /* ContentView.swift */,
 				3BA975F22DA586A600F3116C /* Assets.xcassets */,
@@ -290,6 +292,7 @@
 				DEVELOPMENT_TEAM = CSD8L9EK66;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Spoof-Device-Detector-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -320,6 +323,7 @@
 				DEVELOPMENT_TEAM = CSD8L9EK66;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Spoof-Device-Detector-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
