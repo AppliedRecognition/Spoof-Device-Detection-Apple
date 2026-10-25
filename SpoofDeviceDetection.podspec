@@ -11,7 +11,7 @@ Pod::Spec.new do |spec|
   
   spec.author = "Jakub Dolejs"
   
-  spec.platform = :ios, "13.0"
+  spec.platform = :ios, "14.0"
   spec.swift_versions = ["5.5", "5.6", "5.7", "5.8", "5.9", "5.10"]
   
   spec.source = { :git => "https://github.com/AppliedRecognition/Spoof-Device-Detection-Apple.git", :tag => "#{spec.version}" }
