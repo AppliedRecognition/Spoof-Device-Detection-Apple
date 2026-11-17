@@ -18,7 +18,7 @@ let package = Package(
             targets: ["SpoofDeviceDetectionModel"])
     ],
     dependencies: [
-        .package(url: "https://github.com/AppliedRecognition/Liveness-Detection-Core-Apple.git", from: "1.1.0")
+        .package(url: "https://github.com/AppliedRecognition/Liveness-Detection-Core-Apple.git", from: "1.1.1")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
