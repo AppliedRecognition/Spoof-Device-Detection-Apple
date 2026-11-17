@@ -107,7 +107,7 @@ public class SpoofDeviceDetector: SpoofDetector {
         return spoofDevices.max(by: { $0.confidence < $1.confidence })?.confidence ?? 0
     }
     
-    @available(iOS, introduced: 13.0, obsoleted: 15.0)
+    @available(iOS, introduced: 13.0, deprecated: 15.0)
     public func detectSpoofInImage(_ image: UIImage, regionOfInterest roi: CGRect?) throws -> Float {
         var spoofDevices = try self._detectSpoofDevicesInImage(image)
         if let centreX = roi?.midX, let centreY = roi?.midY {
@@ -133,7 +133,7 @@ public class SpoofDeviceDetector: SpoofDetector {
     /// - Parameter image: image
     /// - Returns: Array of detected spoof devices
     /// - Since: 1.1.0
-    @available(iOS, introduced: 13.0, obsoleted: 15.0)
+    @available(iOS, introduced: 13.0, deprecated: 15.0)
     public func detectSpoofDevicesInImage(_ image: UIImage) throws -> [DetectedSpoof] {
         return try self._detectSpoofDevicesInImage(image)
     }
